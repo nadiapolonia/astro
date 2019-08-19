@@ -5,32 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>astro</title>
     <link rel="shortcut icon" href="/favicon.ico" />
+    <script src="https://kit.fontawesome.com/cdead37d88.js"></script>
     <link rel="stylesheet" href="/screen.css" />
   </head>
+
   <body>
-    <header class="top-header">
-      <div class="top-section">
-        <p>ADG Astro Lounge</p>
-        <div class="menu">
-          <div class="about">
-            <p><a href="">About</a></p>
-          </div>
-          <div class="contact">
-            <p><a href="">Contact Us</a></p>
-          </div>
-        </div>
-      </div>
-    </header>
+    <nav class="nav">
+      <section class="top-header">
+        <header>
+          SDG Astro Lounge
+        </header>
+      </section>
+      <nav class="menu">
+        <a href="#">About</a>
+        <a href="#">Contact Us</a>
+      </nav>
+    </nav>
+
     <div>
       <header class="pic">Explore your universe.</header>
       <footer class="pic-footer">
-        copyright: no copyright | title: Saturn Behind the Moon
+        <p class="copy-tit">copyright:</p>
+        <p class="copyright copy-tit">[insert copyright]</p>
+        <p class="copy-tit">| title:</p>
+        <p class="title copy-tit">[insert title]</p>
       </footer>
     </div>
+
     <header class="space-launch">Upcoming SpaceX Launches</header>
+
     <div class="middle-section">
-      <article class="launch-input">Launch Input Box</article>
+      <button class="left button"><i class="fas fa-angle-left"></i></button>
+
+      <article class="launch-input">
+        <section class="flex center">
+          <i class="fas fa-space-shuttle"></i>
+          <h3 class="mission-title padding">
+            Mission Title
+          </h3>
+        </section>
+        <section class="flex border">
+          <i class="fas fa-info-circle"></i>
+          <p class="mission-info padding">
+            Mission Info
+          </p>
+        </section>
+        <section class="flex border">
+          <i class="fas fa-clock"></i>
+          <p class="mission-countdown padding">
+            Mission Countdown
+          </p>
+        </section>
+        <section class="flex">
+          <i class="fas fa-map-marked-alt"></i>
+          <p class="mission-location padding">
+            Mission Location
+          </p>
+        </section>
+      </article>
+
+      <button class="right button"><i class="fas fa-angle-right"></i></button>
     </div>
+
     <div class="mission">
       <h2>Our Mission Statement.</h2>
       <p class="mission-p">
@@ -45,9 +81,13 @@
         next 10.
       </p>
     </div>
+
     <div class="footer">
-      <footer>made with ♥ at <a href="https://suncoast.io/">SDG</a></footer>
+      <footer>
+        made with 💛 at <a class="love" href="https://suncoast.io/">SDG</a>
+      </footer>
     </div>
+
     <script src="/main.js" charset="utf-8"></script>
   </body>
 </html>
