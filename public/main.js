@@ -1,11 +1,21 @@
 let mission = []
 let spaceIndex = 0
+let firstIndex = 0
+let lastIndex = 0
+
+// Create an empty array. This will be an empty container to soon be an array with the information from the API we actually need.
+let launchboxData = []
 
 // Call all functions once page loads.
 
 const main = async () => {
   updatePicture()
-  callLaunchInfo()
+
+  let launchboxData = await getLaunchInfo()
+
+  lastIndex = launchboxData.length - 1
+
+  buildLaunchbox(launchboxData)
 }
 
 // Update daily NASA image.
@@ -16,9 +26,9 @@ const updatePicture = async () => {
   )
   const picData = await response.json()
   console.log(picData)
-  const pic = (document.querySelector('.pic').style.backgroundImage = `url(${
-    picData.hdUrl
-  })`)
+  const pic = (document.querySelector(
+    '.pic'
+  ).style.backgroundImage = `url(${picData.hdUrl})`)
 
   console.log('Background image uploaded!')
 
@@ -42,17 +52,16 @@ class launchData {
   }
 }
 
-const callLaunchInfo = async () => {
+const getLaunchInfo = async () => {
   const response = await fetch(
     'https://sdg-astro-api.herokuapp.com/api/SpaceX/launches/upcoming'
   )
   const spaceData = await response.json()
-  console.log(spaceData)
 
-  // Turn the API information into a class of the data.
+  // Turn the API information into a class of the data and push into the empty array.
 
   spaceData.forEach(launch => {
-    spaceData.push(
+    launchboxData.push(
       new launchData(
         launch.mission_name,
         launch.details,
@@ -60,34 +69,70 @@ const callLaunchInfo = async () => {
         launch.launch_site.site_name_long
       )
     )
-
-    // Create variables from the class.
-    missionLaunch = launchData
-    missionTitle = launch.mission_name
-    missionInfo = launch.details
-    missionTime = launch.launch_date_unix
-    missionSite = launch.launch_site.site_name_long
-
-    // Turn the class list into an array so can pull the individual data onto the webpage as indexes.
-
-    // const missionNameArray = missionTitle.map(missionTitleItem => {
-    //   return missionTitleItem
-    // })
   })
+
+  return launchboxData
 }
 
-// const callLaunchBox = () => {
-//   missionArray()
+// Create functions for left and right buttons
 
-//   document.querySelector('.mission-title').textContent = missionTitle
+const switchLaunchesUp = () => {
+  // Increase index by one
+  spaceIndex++
 
-//   document.querySelector('.mission-info').textContent = missionInfo
+  // Scrolls back to the first index when clicking "right" on the last index item
+  if (spaceIndex > lastIndex) {
+    spaceIndex = firstIndex
+  }
 
-//   document.querySelector('.mission-location').textContent = missionSite
+  // Call function and data within it when changing mission launch page
+  buildLaunchbox(launchboxData)
+}
 
-//   console.log(mission.site_name_long)
-// }
+const switchLaunchesDown = () => {
+  spaceIndex--
+
+  // Scrolls to the last index when clicking "left" on the first index item
+  if (spaceIndex < firstIndex) {
+    spaceIndex = lastIndex
+  }
+
+  buildLaunchbox(launchboxData)
+}
+
+// Select information in launchbox to be replaced with values in array
+
+const buildLaunchbox = () => {
+  let currentObj = launchboxData[spaceIndex]
+
+  document.querySelector('.mission-title').textContent = currentObj.title
+
+  document.querySelector('.mission-info').textContent = currentObj.info
+
+  document.querySelector('.mission-location').textContent = currentObj.location
+
+  document.querySelector('.mission-countdown').textContent = currentObj.time
+
+  console.log(mission.site_name_long)
+}
+
+// Add functions to left and right buttons
+document.querySelector('.left').addEventListener('click', switchLaunchesDown)
+document.querySelector('.right').addEventListener('click', switchLaunchesUp)
 
 // const scrollLaunchBox = () => {}
 
 document.addEventListener('DOMContentLoaded', main)
+
+// Extracting the information from the overall API response arrays. Objects where the property `details` is not undefined are unwanted and do not represent the launchbox information needed.
+
+// let infoWeDontWant = spaceData.map(data => {
+//   if (data.details !== undefined) {
+//     return data
+//   }
+// })
+// let launchboxData = spaceData.map(data => {
+//   if (data.details === undefined) {
+//     return data
+//   }
+// })
